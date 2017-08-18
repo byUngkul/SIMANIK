@@ -14,12 +14,11 @@ class CreateResepsTable extends Migration
     public function up()
     {
         Schema::create('reseps', function (Blueprint $table) {
-            $table->char('id', 10);
-            $table->primary('id');
+            $table->increments('id');
             $table->char('dokter_id', 10);
             $table->smallInteger('obat_id');
             $table->char('pasien_id', 10);
-            $table->string('keterangan', 150);
+            $table->string('keterangan', 255);
             $table->smallInteger('jumlah');
             $table->timestamps();
         });

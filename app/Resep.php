@@ -8,14 +8,15 @@ class Resep extends Model
 {
     protected $table = 'reseps';
     protected $primaryKey = 'id';
-    public $incrementing = false;
+    // public $incrementing = false;
     
     protected $fillable = [
     	'dokter_id',
     	'pasien_id',
 	'obat_id',
 	'keterangan',
-	'jumlah',
+             'jumlah',
+	'status',
     ];
 
     public function dokter() {

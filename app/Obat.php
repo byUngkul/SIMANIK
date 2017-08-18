@@ -19,4 +19,8 @@ class Obat extends Model
     public function kategori() {
     	return $this->belongsTo('App\KategoriObat');
     }
+
+    // public function resep() {
+    //     return $this->hasMany('App\Resep')->sum('harga');
+    // }
 }

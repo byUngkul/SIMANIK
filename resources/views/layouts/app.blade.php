@@ -92,19 +92,20 @@
               </li>
               <li><a href="{{ route('getPasien') }}"><i class="fa fa-users"></i>Data Pasien</a>
             </li>
-          @elseif(Auth::guard('dokter')->check())
-          <li><a href="{{ route('dokter.index') }}"><i class="fa fa-stethoscope "></i> Pemeriksaan Pasien</a>
+            @elseif(Auth::guard('dokter')->check())
+            <li><a href="{{ route('dokter.index') }}"><i class="fa fa-stethoscope "></i> Pemeriksaan Pasien</a>
+          </li>
+          <li><a href="{{ route('getRekamMedis') }}"><i class="fa fa-list-alt"></i> Data Rekam Medis</a>
+          <li><a href="{{ route('getResep') }}"><i class="fa fa-file-text"></i> Data Resep </a>
         </li>
-        <li><a href="{{ route('getRekamMedis') }}"><i class="fa fa-list-alt"></i> Data Rekam Medis</a>
-        <li><a href="{{ route('getResep') }}"><i class="fa fa-file-text"></i> Data Resep </a>
+        @elseif(Auth::guard('apoteker')->check())
+        <li><a href="{{ route('apoteker.index') }}"><i class="fa fa-list"></i> Resep Hari Ini</a>
       </li>
-    @elseif(Auth::guard('apoteker')->check())
-    <li><a href="{{ route('apoteker.index') }}"><i class="fa fa-list"></i> Resep Hari Ini</a>
-  </li>
-  <li><a href="{{ route('getObat') }}"><i class="fa fa-medkit"></i> Data Obat</a>
-@endif
-</ul>
-</div>
+      <li><a href="{{ route('getObat') }}"><i class="fa fa-medkit"></i> Data Obat</a>
+      <li><a href="{{ route('getKategori') }}"><i class="fa fa-bars"></i> Data Kategori Obat</a>
+      @endif
+    </ul>
+  </div>
 </div>
 <!-- /sidebar menu -->
 </div>
@@ -113,36 +114,35 @@
 <div class="top_nav">
 <div class="nav_menu">
 <nav>
-<div class="nav toggle">
-<a id="menu_toggle"><i class="fa fa-bars"></i></a>
-</div>
-
-<ul class="nav navbar-nav navbar-right">
-<li class="">
-<a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-@if(Auth::guard('admin')->check())
-<img src="{{URL::to('images/user-admin.jpg')}}" alt="">
-{{ Auth::guard('admin')->user()->username }}
-@elseif(Auth::guard('resepsionist')->check())
-<img src="{{ URL::to('images/', Auth::guard('resepsionist')->user()->getPhoto()) }}" alt="">
-{{ Auth::guard('resepsionist')->user()->username }}
-@elseif(Auth::guard('dokter')->check())
-<img src="{{URL::to('images/', Auth::guard('dokter')->user()->getPhoto())}}" alt="">
-{{ Auth::guard('dokter')->user()->username }}
-@elseif(Auth::guard('apoteker')->check())
-<img src="{{ URL::to('images/', Auth::guard('apoteker')->user()->getPhoto()) }}" alt="">
-{{ Auth::guard('apoteker')->user()->username }}
-@else
-<img src="{{URL::to('images/user-admin.jpg')}}" alt="">
-Resepsionist
-@endif
-<span class=" fa fa-angle-down"></span>
-</a>
-<ul class="dropdown-menu dropdown-usermenu pull-right">
-<li><a href="{{ route('logout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-</ul>
-</li>
-</nav>
+  <div class="nav toggle">
+    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+  </div>
+  <ul class="nav navbar-nav navbar-right">
+    <li class="">
+      <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        @if(Auth::guard('admin')->check())
+        <img src="{{URL::to('images/user-admin.jpg')}}" alt="">
+        {{ Auth::guard('admin')->user()->username }}
+        @elseif(Auth::guard('resepsionist')->check())
+        <img src="{{ URL::to('images/', Auth::guard('resepsionist')->user()->getPhoto()) }}" alt="">
+        {{ Auth::guard('resepsionist')->user()->username }}
+        @elseif(Auth::guard('dokter')->check())
+        <img src="{{URL::to('images/', Auth::guard('dokter')->user()->getPhoto())}}" alt="">
+        {{ Auth::guard('dokter')->user()->username }}
+        @elseif(Auth::guard('apoteker')->check())
+        <img src="{{ URL::to('images/', Auth::guard('apoteker')->user()->getPhoto()) }}" alt="">
+        {{ Auth::guard('apoteker')->user()->username }}
+        @else
+        <img src="{{URL::to('images/user-admin.jpg')}}" alt="">
+        Resepsionist
+        @endif
+        <span class=" fa fa-angle-down"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-usermenu pull-right">
+        <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+      </ul>
+    </li>
+  </nav>
 </div>
 </div>
 <!-- /top navigation -->
@@ -217,16 +217,15 @@ format: 'yyyy-mm-dd',
 todayHighlight: true
 });
 $('.bulan').datepicker( {
-          format: "mm",
-          viewMode: "months", 
-          minViewMode: "months"
-      });
-
-      $('.tahun').datepicker( {
-          format: "yyyy",
-          viewMode: "years", 
-          minViewMode: "years"
-      })
+format: "mm",
+viewMode: "months",
+minViewMode: "months"
+});
+$('.tahun').datepicker( {
+format: "yyyy",
+viewMode: "years",
+minViewMode: "years"
+})
 $('.select2').select2();
 });
 </script>

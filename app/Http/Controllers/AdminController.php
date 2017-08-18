@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Resepsionist;
 use App\Dokter;
+use File;
 use App\Speasialis;
 use App\Apoteker;
-use Image,Storage;
+use Image;
 
 class AdminController extends Controller
 {
@@ -88,14 +89,15 @@ class AdminController extends Controller
                     Image::make($file)->resize(128, 128)->save($location);
                     //gambar lama
                     $oldFileName = $data->photo;
+                    // dd($oldFileName);
                     //hapus gambar lama
-                    Storage::delete($oldFileName);
+                    File::delete(public_path('images/' . $oldFileName));
                     //gambar baru
                     $data->photo = $fileName;
 
                 }
                 $data->password = bcrypt($request->password);
-                $data->save();
+                // $data->save();
                 return redirect()->back();
             }elseif($request->password == $data->password) {
                 $data->id = $request->id;
@@ -107,13 +109,13 @@ class AdminController extends Controller
                 $data->level = 'resepsionist';
                 if($request->hasFile('photo')) {
                     $file = $request->file('photo');
-                    $fileName   =   date('Y-m-d') . "." . $file->getClientOriginalName();
+                    $fileName   =   date('Y-m-d') . "-" . $file->getClientOriginalName();
                     $location   =   public_path('images/'. $fileName);
                     Image::make($file)->resize(128, 128)->save($location);
                     //gambar lama
                     $oldFileName = $data->photo;
                     //hapus gambar lama
-                    Storage::delete($oldFileName);
+                    File::delete(public_path('images/' . $oldFileName));
                     //gambar baru
                     $data->photo = $fileName;
 
@@ -200,7 +202,7 @@ class AdminController extends Controller
                     //gambar lama
                     $oldFileName = $data->photo;
                     //hapus gambar lama
-                    Storage::delete($oldFileName);
+                    File::delete(public_path('images/' . $oldFileName));
                     //gambar baru
                     $data->photo = $fileName;
 
@@ -297,7 +299,7 @@ class AdminController extends Controller
                     //gambar lama
                     $oldFileName = $data->photo;
                     //hapus gambar lama
-                    Storage::delete($oldFileName);
+                    File::delete(public_path('images/' . $oldFileName));
                     //gambar baru
                     $data->photo = $fileName;
 
@@ -319,7 +321,7 @@ class AdminController extends Controller
                     //gambar lama
                     $oldFileName = $data->photo;
                     //hapus gambar lama
-                    Storage::delete($oldFileName);
+                    File::delete(public_path('images/' . $oldFileName));
                     //gambar baru
                     $data->photo = $fileName;
 

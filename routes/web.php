@@ -40,7 +40,7 @@ Route::group(['prefix' => 'resepsionist'], function() {
 Route::group(['prefix' => 'dokter'], function() {
 	// Periksa Pasien
 	Route::get('/', ['uses' => 'DokterController@index', 'as' => 'dokter.index']);
-	Route::get('/periksa/pasien/{id}', ['uses' => 'DokterController@getRekamMedisPasien', 'as' => 'getRekamMedisPasien']);
+	Route::get('/periksa/pasien/id={id}&nama={nama}&tgl={tgl}', ['uses' => 'DokterController@getRekamMedisPasien', 'as' => 'getRekamMedisPasien']);
 	Route::post('/periksa/pasien', ['uses' => 'DokterController@postRekamMedisPasien', 'as' => 'postRekamMedisPasien']);
 	Route::get('/getObat', ['uses' => 'DokterController@getObat', 'as' => 'getObat']);
 
@@ -65,5 +65,19 @@ Route::group(['prefix' => 'dokter'], function() {
 Route::group(['prefix' => 'apoteker'], function() {
 	Route::get('/', ['uses' => 'ApotekerController@index', 'as' => 'apoteker.index']);
 	Route::get('/obat', ['uses' => 'ApotekerController@getObat', 'as' => 'getObat']);
+	Route::post('/obat', ['uses' => 'ApotekerController@postObat', 'as' => 'postObat']);
+	Route::post('/obat/update', ['uses' => 'ApotekerController@postUpdateObat', 'as' => 'postUpdateObat']);
+	Route::get('/obat/getHapusObat', ['uses' => 'ApotekerController@getHapusObat', 'as' => 'getHapusObat']);
+	Route::get('/obat/excel/{type}', ['uses' => 'ApotekerController@exportExcelObat', 'as' => 'exportExcelObat']);
+	Route::post('/obat/export/Pdf', ['uses' => 'ApotekerController@exportPDFObat', 'as' => 'exportPDFObat']);
+	Route::get('/DetailResep/dokter_id={dokter_id}&pasien_id={pasien_id}', ['uses' => 'ApotekerController@getDataResep', 'as' => 'getDataResep']);
+	Route::post('/DetailResep/postResep', ['uses' => 'ApotekerController@postResep', 'as' => 'postResep']);
+	Route::post('/DetailResep/dokter_id={dokter_id}&pasien_id={pasien_id}/Print', ['uses' => 'ApotekerController@PrintDetailResep', 'as' => 'PrintDetailResep']);
+	Route::get('/getDetailResep', ['uses' => 'ApotekerController@getDetailResep', 'as' => 'getDetailResep']);
+	Route::get('/getKategori', ['uses' => 'ApotekerController@getKategori', 'as' => 'getKategori']);
+	Route::post('/postKategori', ['uses' => 'ApotekerController@postKategori', 'as' => 'postKategori']);
+	Route::get('/getHapusKategori', ['uses' => 'ApotekerController@getHapusKategori', 'as' => 'getHapusKategori']);
+	Route::post('/postUpdateKategori', ['uses' => 'ApotekerController@postUpdateKategoriObat', 'as' => 'postUpdateKategori']);
+
 });
 

@@ -17,19 +17,67 @@ class DokterController extends Controller
     }
 
     public function index(Pasien $pasien) {
-            $antri = $pasien->whereDate('created_at', date('Y-m-d'))->where('status', 'antri')->get();
-    	return view('dokter.index', ['antri'=> $antri]);
+            $antri = $pasien->whereDate('created_at', date('Y-m-d'))->where('status', 'antri')->orderBy('created_at', 'desc')->get();
+            $obat = $pasien->whereDate('created_at', date('Y-m-d'))->where('status', 'obat')->orderBy('updated_at')->get();
+            $pasien = $pasien->whereDate('created_at', date('Y-m-d'))->get();
+    	return view('dokter.index', ['antri'=> $antri, 'obat' => $obat, 'pasien' => $pasien]);
     }
 
-    public function getRekamMedisPasien($id) {
+    public function getRekamMedisPasien($id, $nama, $tgl) {
         $pasien = Pasien::find($id);
-        $rekamMedis =  RK_Medis::where('pasien_id', $id)->get()->toArray();
+        $rekamMedis =  RK_Medis::where(['nama' => $nama, 'tgl_lahir' => $tgl])->get()->toArray();
+        $umur = new \DateTime($pasien->tgl_lahir);
+        $ubah = new \DateTime();
+        $umur = $ubah->diff($umur);
+        // dd($umur);
+        // 
         $obat = Obat::get()->toArray();
-        return view('dokter.pasien-rekam-medis', ['pasien' => $pasien, 'rekamMedis' => $rekamMedis, 'obat' => $obat]);
+        $id = RK_Medis::select('id')->get()->last();
+            if ($id == null) {
+                $id = 1;
+            }
+        $id  = substr($id['id'], 4);
+        $id = (int) $id;
+        $id += 1;
+        $id  = "RK" . str_pad($id, 4, "0", STR_PAD_LEFT);
+        // dd($id);
+        return view('dokter.pasien-rekam-medis', ['pasien' => $pasien, 'rekamMedis' => $rekamMedis, 'obat' => $obat, 'id' => $id, 'nama' => $nama, 'tgl_lahir' => $tgl, 'umur' => $umur]);
     }
 
     public function postRekamMedisPasien(Request $request) {
-        dd($request->all());
+        if ($request->ajax()) {
+            $rekamMedis = RK_Medis::create([
+                'id' => $request->id,
+                'nama' => $request->nama,
+                'tgl_lahir' => $request->tgl,
+                'bb' => $request->bb,
+                'tb' => $request->tb,
+                'tensi' => $request->tensi,
+                'bw' => $request->bw,
+                'pasien_id' => $request->pasien_id,
+                'dokter_id' => $request->dokter_id,
+                'diagnosa' => $request->diagnosa,
+                'keluhan' => $request->keluhan,
+                'anamnesis' => $request->anamnesis,
+                'tindakan' => $request->tindakan,
+                'keterangan' => $request->deskripsi,
+                'alergi_obat' => $request->alergi_obat,
+            ]);
+
+            $pasien = Pasien::find($request->pasien_id)->update(['status' => 'obat']);
+            
+            for ($i=0; $i <count($request['obat']) ; $i++) { 
+                $resep = Resep::create([
+                    'dokter_id'    => $request['dokter_id'],
+                    'pasien_id'    =>   $request['pasien_id'],
+                    'obat_id'        =>     $request['obat'][$i]['value'],
+                    'keterangan'  =>    $request['keterangan'][$i]['value'],
+                    'jumlah'          =>    $request['jumlah'][$i]['value'],
+                    'status'          =>     'belum'
+                    ]);
+            }
+            return response()->json($resep);
+        }
     }
 
     public function getObat() {
