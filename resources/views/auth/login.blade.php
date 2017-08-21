@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login Area | SIMANIK</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="{{ URL::to('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
@@ -18,7 +19,7 @@
     <!-- Custom Theme Style -->
     <link href="{{ URL::to('css/custom.min.css') }}" rel="stylesheet">
   </head>
-  <body style="background: #2A3F54"  id="fakeLoader">
+  <body style="background: #2A3F54;font-family: 'Roboto Condensed';"  id="fakeLoader">
     <div style="text-align: center;margin-top: 100px">
       <div class="col-lg-12">
         <h1 style="text-align: center;margin-bottom: 30px;color:#ffffff">Sistem Informasi Klinik</h1>
