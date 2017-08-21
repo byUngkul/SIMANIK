@@ -23,6 +23,7 @@ class CreatePasiensTable extends Migration
             $table->string('telp', 13);
             $table->string('pekerjaan', 40);
             $table->enum('status', ['antri', 'periksa', 'obat', 'selesai']);
+            $table->string('layanan_dokter', 15);
             $table->timestamps();
             
         });
