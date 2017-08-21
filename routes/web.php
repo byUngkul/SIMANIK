@@ -31,6 +31,7 @@ Route::group(['prefix' => 'resepsionist'], function() {
 	Route::post('/pendaftaran-pasien', ['uses' => 'ResepsionistController@postPendaftaranPasien', 'as' => 'postPendaftaranPasien']);
 	Route::get('/pasien/hapus', ['uses' => 'ResepsionistController@getHapusPasien', 'as' => 'getHapusPasien']);
 	Route::get('/pasien', ['uses' => 'ResepsionistController@getPasien', 'as' => 'getPasien']);
+	Route::post('/pasien/pasien-terdaftar', ['uses' => 'ResepsionistController@postPasienTerdaftar', 'as' => 'postPasienTerdaftar']);
 	Route::post('/pasien/update', ['uses' => 'ResepsionistController@postUpdatePasien', 'as' => 'postUpdatePasien']);
 	Route::post('/pasien/export/{type}', ['uses' => 'ResepsionistController@exportExcelPasien', 'as' => 'exportExcelPasien']);
 	Route::post('/pasien/exportPdf', ['uses' => 'ResepsionistController@exportPDFPasien', 'as' => 'exportPDFPasien']);

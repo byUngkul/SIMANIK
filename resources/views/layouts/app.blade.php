@@ -90,7 +90,7 @@
                 @elseif(Auth::guard('resepsionist')->check())
                 <li><a href="{{ route('resepsionist.index') }}"><i class="fa fa-clipboard"></i> Pendaftaran Pasien</a>
               </li>
-              <li><a href="{{ route('getPasien') }}"><i class="fa fa-users"></i>Data Pasien</a>
+              <li><a href="{{ route('getPasien') }}"><i class="fa fa-users"></i>Data Pasien Terdaftar</a>
             </li>
             @elseif(Auth::guard('dokter')->check())
             <li><a href="{{ route('dokter.index') }}"><i class="fa fa-stethoscope "></i> Pemeriksaan Pasien</a>

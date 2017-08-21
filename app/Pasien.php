@@ -10,13 +10,14 @@ class Pasien extends Model
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $fillable = [
-             'id',
+        'id',
     	'nama',
     	'jenis_kelamin',
     	'telp',
     	'alamat',
     	'tgl_lahir',
     	'pekerjaan',
-            'status'
+        'status',
+        'layanan_dokter'
     ];
 }

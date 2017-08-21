@@ -72,7 +72,7 @@
 	
 	<div class="x_panel">
 		<div class="x_title">
-			<h2>Data Pasien</h2>
+			<h2>Data Pasien Terdaftar</h2>
 			<div class="clearfix"></div>
 		</div>
 		<div class="x_content">
@@ -101,6 +101,7 @@
 								data-id="{{ $data['id'] }}" data-nama="{{ $data['nama'] }}" data-alamat="{{ $data['alamat'] }}" data-tgl_lahir="{{ $data['tgl_lahir'] }}" data-telp="{{ $data['telp'] }}" data-pekerjaan="{{$data['pekerjaan']}}" data-status="{{$data['status']}}" data-jenis_kelamin="{{$data['jenis_kelamin']}}"
 							><i class="fa fa-edit"></i></a>
 							<a href="#!" class="btn btn-danger btn-flat btn-hapus" data-id="{{$data['id']}}"><i class="fa fa-trash"></i></a>
+							<a href="#modal-tambah" data-toggle="modal" class="btn btn-primary btn-flat btn-tambah" data-id="{{$data['id']}}" data-nama="{{$data['nama']}}"><i class="fa fa-plus"></i></a>
 						</td>
 					</tr>
 					@endforeach
@@ -175,6 +176,54 @@
 		</div>
 	</div>
 </div>
+{{--  modal tambah  --}}
+<div class="modal fade" id="modal-tambah">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Edit Data</h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="frm-tambah">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="form-group">
+							<label>ID Pasien</label>
+							<input type="text" name="id" id="id_pasien" class="form-control" required=""  readonly="">
+							<input type="hidden" name="status" value="antri">
+						</div>
+						<div class="form-group">
+							<label>Nama Pasien</label>
+							<input type="text" name="nama" id="nama_pasien" class="form-control" required="">
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+						<div class="form-group">
+							<label>Pilih Dokter</label>
+							<select name="dokter_id" id="dokter_id" class="form-control select2" style="width:100% !important">
+								<option disabled selected>-Pilih Dokter-</option>
+								@foreach($dokter as $data)
+									<option value="{{$data['id']}}" data-id="{{$data['id']}}" data-nama="{{$data['nama']}}" data-spesialis="{{$data['spesialis']['spesialis']}}">{{$data['nama']}}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+						<div class="form-group">
+							<label>Spesialis</label>
+							<input type="text" name="spesialis_id" id="spesialis_id" class="form-control" readonly>
+						</div>
+					</div>
+					
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-close" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary">Tambahkan ke Antrian <i class="fa fa-refresh"></i></button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 @section('customJs')
 <script type="text/javascript">
@@ -230,6 +279,32 @@
 	                    }
 	                });
 	          });
+		
+		$('.btn-tambah').on('click', function(e) {
+			e.preventDefault();
+			var id = $(this).data('id');
+			var nama = $(this).data('nama');
+			$('#id_pasien').val(id);
+			$('#nama_pasien').val(nama);
+		});
+
+		$('#dokter_id').on('change', function() {
+			$('#dokter_id option:selected').each(function() {
+				var id = $(this).data('id');
+				var nama = $(this).data('nama');
+				var spesialis = $(this).data('spesialis');
+				$('#spesialis_id').val(spesialis);
+			});
+		});
+
+		$('#frm-tambah').on('submit', function(e) {
+			e.preventDefault();
+			var data = $(this).serialize();
+			$.post("{{route('postPasienTerdaftar')}}", data, function(data) {
+				toastr.success('Success !', 'Pasien berhasil terdaftar di antrian !');
+				$('#modal-tambah').modal('hide');
+			});
+		});
 	});
 </script>
 @endsection

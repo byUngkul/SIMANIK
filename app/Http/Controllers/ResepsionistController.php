@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Pasien;
+use App\Dokter;
 use Excel;
 use PDF;
 
@@ -17,8 +18,7 @@ class ResepsionistController extends Controller
             $pasien = Pasien::whereDate('created_at', '=', date('Y-m-d'))->where('status', '=', 'antri')->get();
             $total = Pasien::get()->toArray();
             $bulan = Pasien::whereMonth('created_at', '=', date('m'))->whereYear('created_at', '=', date('Y'))->get()->toArray();
-            // dd($bulan);
-            
+            $dokter = Dokter::with('spesialis')->get()->toArray();        
             $id = Pasien::select('id')->get()->last();
             if ($id == null) {
                 $id = 1;
@@ -31,20 +31,49 @@ class ResepsionistController extends Controller
                                 'pasien' => $pasien, 
                                 'id' => $id, 
                                 'total' => $total,
-                                'bulan' => $bulan
+                                'bulan' => $bulan,
+                                'dokter' => $dokter
                                 ]);
     }
 
     public function getPasien() {
              $HariIni = Pasien::whereDate('created_at', '=', date('Y-m-d'))->where('status', '=', 'antri')->get();
             $bulan = Pasien::whereMonth('created_at', '=', date('m'))->whereYear('created_at', '=', date('Y'))->get()->toArray();
-    	$pasien = Pasien::orderBy('created_at', 'desc')->get()->toArray();
-    	return view('resepsionist.pasien.index', ['pasien'=> $pasien, 'bulan' => $bulan, 'HariIni' => $HariIni]);
+        $pasien = Pasien::orderBy('created_at', 'desc')->groupBy('nama')->get()->toArray();
+        $dokter = Dokter::with('spesialis')->get()->toArray();
+        // dd($dokter); 
+    	return view('resepsionist.pasien.index', ['pasien'=> $pasien, 'bulan' => $bulan, 'HariIni' => $HariIni, 'dokter' => $dokter]);
     }
 
     public function postPendaftaranPasien(Request $request) {
-                $data = Pasien::create($request->all());
-                return redirect()->back();
+            // dd($request->all());
+            $data = Pasien::create($request->all());
+            return redirect()->back();
+    }
+
+    public function postPasienTerdaftar(Request $request) {
+        if($request->ajax()){
+            $pasien = Pasien::find($request->id);
+            $id = Pasien::select('id')->get()->last();
+            if ($id == null) {
+                $id = 1;
+            }
+            $id  = substr($id['id'], 4);
+            $id = (int) $id;
+            $id += 1;
+            $id  = "PS" . str_pad($id, 4, "0", STR_PAD_LEFT);
+            $create_pasien = Pasien::create([
+                'id' => $id,
+                'nama' => $pasien->nama,
+                'jenis_kelamin' => $pasien->jenis_kelamin,
+                'alamat' => $pasien->alamat,
+                'tgl_lahir' => $pasien->tgl_lahir,
+                'telp' => $pasien->telp,
+                'pekerjaan' => $pasien->pekerjaan,
+                'status' => 'antri',
+            ]);
+            return response()->json($create_pasien);
+        }
     }
 
     public function getHapusPasien(Request $request) {

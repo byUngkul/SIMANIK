@@ -17,9 +17,10 @@ class DokterController extends Controller
     }
 
     public function index(Pasien $pasien) {
-            $antri = $pasien->whereDate('created_at', date('Y-m-d'))->where('status', 'antri')->orderBy('created_at', 'desc')->get();
-            $obat = $pasien->whereDate('created_at', date('Y-m-d'))->where('status', 'obat')->orderBy('updated_at')->get();
-            $pasien = $pasien->whereDate('created_at', date('Y-m-d'))->get();
+            $antri = $pasien->whereDate('created_at', date('Y-m-d'))->where(['status' => 'antri', 'layanan_dokter' => Session::get('id')])->orderBy('created_at', 'desc')->get();
+            // dd($antri);
+            $obat = $pasien->whereDate('created_at', date('Y-m-d'))->where(['status' => 'obat', 'layanan_dokter' => Session::get('id')])->orderBy('updated_at')->get();
+            $pasien = $pasien->where('layanan_dokter', Session::get('id'))->whereDate('created_at', date('Y-m-d'))->get();
     	return view('dokter.index', ['antri'=> $antri, 'obat' => $obat, 'pasien' => $pasien]);
     }
 
