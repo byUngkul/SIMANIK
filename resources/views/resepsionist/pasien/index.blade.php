@@ -211,7 +211,7 @@
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 						<div class="form-group">
 							<label>Spesialis</label>
-							<input type="text" name="spesialis_id" id="spesialis_id" class="form-control" readonly>
+							<input type="text" id="spesialis_id" class="form-control" readonly>
 						</div>
 					</div>
 					
