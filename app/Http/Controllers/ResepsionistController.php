@@ -71,6 +71,7 @@ class ResepsionistController extends Controller
                 'telp' => $pasien->telp,
                 'pekerjaan' => $pasien->pekerjaan,
                 'status' => 'antri',
+                'layanan_dokter' => $request->dokter_id
             ]);
             return response()->json($create_pasien);
         }

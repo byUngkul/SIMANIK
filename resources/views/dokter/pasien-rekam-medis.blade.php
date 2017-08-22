@@ -322,6 +322,7 @@
 						jumlah:jumlah,
 						keterangan:keterangan,
 					}, function(data) {
+						console.log(data);
 						toastr.success('Success !', 'Data berhasil di simpan !');
 						location.href = "{{route('dokter.index')}}";
 					});

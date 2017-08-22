@@ -69,8 +69,6 @@
 				<tr>
 					<th>No.</th>
 					<th>Nama Obat</th>
-					<th>Harga</th>
-					<th>Jumlah</th>
 					<th>Stok Obat </th>
 				</tr>
 			</thead>
@@ -80,8 +78,6 @@
 				<tr class="baris">
 					<td>{{$no++}}</td>
 					<td>{{$data['obat']['nama']}}</td>
-					<td class="harga-habis">{{$data['obat']['harga']}}</td>
-					<td class="jumlah-habis">{{$data['jumlah']}}</td>
 					<td>
 						<span class="btn btn-flat btn-sm btn-danger btn-block">Habis <i class="fa fa-close"></i></span>
 					</td>
