@@ -177,7 +177,7 @@
             var bulan = date.getMonth(item.created_at) + 1;
             var tahun = date.getFullYear(item.created_at);
             console.log(item);
-            var table = '<tr id="baris"><td>'+hari + '-' + bulan +'-' + tahun+'</td><td>Nama Obat : '+item.obat.nama+' | Jumlah : '+item.jumlah+'  | Keterangan : '+item.keterangan+'</td></tr>';
+            var table = '<tr id="baris"><td>'+hari + '-' + bulan +'-' + tahun+'</td><td>Nama Obat : '+item.obat.nama+' | Jumlah : '+item.jumlah+'  | Signa : '+item.keterangan+'</td></tr>';
             $('#daftar-resep').append(table);
           }); 
         });

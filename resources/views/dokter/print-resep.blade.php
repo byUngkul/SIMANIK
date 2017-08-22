@@ -26,10 +26,9 @@
     <thead>
       <tr>
         <th>No.</th>
-        <th>Nama Pasien</th>
         <th>Nama Obat</th>
         <th>Jumlah</th>
-        <th>Keterangan</th>
+        <th>Signa</th>
         </tr>
     </thead>
     <tbody>
@@ -37,7 +36,6 @@
         @foreach($resep as $data)
           <tr>
               <td>{{$no++}}</td>
-              <td>{{ $data['pasien']['nama'] }}</td>
               <td>{{ $data['obat']['nama'] }}</td>
               <td>{{ $data['jumlah'] }}</td>
               <td>{{ $data['keterangan'] }}</td>
