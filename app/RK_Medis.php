@@ -10,8 +10,10 @@ class RK_Medis extends Model
     protected $primariKey = 'id';
      public $incrementing = false;
     protected $fillable = [
-    		'id',
-    		'pasien_id',
+    	'id',
+		'pasien_id',
+		'nama',
+		'tgl_lahir',
 		'dokter_id',
 		'diagnosa',
 		'keluhan',

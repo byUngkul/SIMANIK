@@ -30,7 +30,7 @@ class DokterController extends Controller
         $umur = new \DateTime($pasien->tgl_lahir);
         $ubah = new \DateTime();
         $umur = $ubah->diff($umur);
-        // dd($umur);
+        // dd($nama);
         // 
         $obat = Obat::get()->toArray();
         $id = RK_Medis::select('id')->get()->last();
@@ -77,7 +77,8 @@ class DokterController extends Controller
                     'status'          =>     'belum'
                     ]);
             }
-            return response()->json($resep);
+            
+            return response()->json($rekamMedis);
         }
     }
 
@@ -158,7 +159,7 @@ class DokterController extends Controller
     }
 
     public function getResep() {
-            $resep = Resep::with(['pasien', 'obat'])->where('dokter_id', Session::get('id'))->groupBy(['pasien_id'])->get()->toArray();
+            $resep = Resep::with(['pasien', 'obat'])->where('dokter_id', Session::get('id'))->orderBy('created_at', 'desc')->groupBy('pasien_id')->get()->toArray();
             // dd($resep);
             $hariIni = Resep::where('dokter_id', Session::get('id'))->whereDate('created_at', date('y-m-d'))->get()->toArray();
     	return view('dokter.resep', ['resep' => $resep, 'hariIni' => $hariIni]);
