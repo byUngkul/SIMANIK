@@ -15,14 +15,14 @@ class AdminController extends Controller
     public function __construct() {
     	$this->middleware('admin');
     }
-    
+
     public function index() {
             $resepsionist = Resepsionist::select('id')->get()->toArray();
             $dokter = Dokter::select('id')->get()->toArray();
             $apoteker = Apoteker::select('id')->get()->toArray();
-            
+
     	return view('admin.index', [
-                        'resepsionist' => $resepsionist, 
+                        'resepsionist' => $resepsionist,
                         'dokter' => $dokter,
                         'apoteker' => $apoteker
             ]);
@@ -45,7 +45,7 @@ class AdminController extends Controller
 
     public function postAdminResepsionist(Request $request) {
         // dd($request->all());
-    	if ($request->ajax()) {
+    	if ($request) {
                 $resepsionist = new Resepsionist;
                 $resepsionist->id = $request->id;
                 $resepsionist->username = $request->username;
@@ -64,16 +64,16 @@ class AdminController extends Controller
             }else {
                     $fileName       =   'user-resepsionist.jpg';
                     $resepsionist->photo  =  $fileName;
-                }
-                
+            }
+
                 $resepsionist->save();
 
-                return response()->json($resepsionist);
-            }
+            return redirect()->route('adminResepsionist');
+      }
     }
 
     public function updateAdminResepsionist(Request $request, Resepsionist $resepsionist) {
-       
+
             $data = $resepsionist->find($request->id);
             if ($request->password != $data->password) {
                 $data->id = $request->id;
@@ -122,9 +122,9 @@ class AdminController extends Controller
                 }
                 $data->save();
                 return redirect()->back();
-                
+
             }
-        
+
     }
 
     public function deleteAdminResepsionist(Request $request, Resepsionist $resepsionist) {
@@ -150,7 +150,7 @@ class AdminController extends Controller
     }
 
     public function postAdminDokter(Request $request) {
-        if ($request->ajax()) {
+        if ($request) {
                 $dokter = new Dokter;
                 $dokter->id = $request->id;
                 $dokter->username = $request->username;
@@ -172,7 +172,7 @@ class AdminController extends Controller
                         $dokter->photo  =  $fileName;
                 }
                 $dokter->save();
-                return response()->json($dokter);
+                return redirect()->route('adminDokter');
         }
     }
 
@@ -258,7 +258,7 @@ class AdminController extends Controller
     }
 
     public function postAdminApoteker(Request $request) {
-        if ($request->ajax()) {
+        if ($request) {
                 $apoteker = new Apoteker;
                 $apoteker->id = $request->id;
                 $apoteker->username = $request->username;
@@ -278,7 +278,7 @@ class AdminController extends Controller
                         $apoteker->photo  =  $fileName;
                 }
                 $apoteker->save();
-                return response()->json($apoteker);
+                return redirect()->route('adminApoteker');
         }
     }
 
@@ -330,7 +330,7 @@ class AdminController extends Controller
                 $data->save();
                 return redirect()->back();
             }
-        
+
     }
 
     public function deleteAdminApoteker(Request $request, Apoteker $apoteker) {
