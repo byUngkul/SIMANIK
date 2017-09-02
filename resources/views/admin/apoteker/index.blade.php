@@ -22,7 +22,7 @@
 		    			<div class="clearfix"></div>
 		    		</div>
 		    		<div class="x_content">
-		    			<form action="{{ route('postAdminApoteker') }}" method="post" id="frm-apoteker">
+		    			<form action="{{ route('postAdminApoteker') }}" method="post" id="frm-apoteker" enctype="multipart/form-data">
 								{{ csrf_field() }}
 		    			<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 		    				<div class="col-lg-12">

@@ -272,7 +272,7 @@ class AdminController extends Controller
                     $fileName   =   date('Y-m-d') . "." . $file->getClientOriginalName();
                     $location   =   public_path('images/'. $fileName);
                     Image::make($file)->resize(128, 128)->save($location);
-                    $dokter->photo  =  $fileName;
+                    $apoteker->photo  =  $fileName;
                 }else {
                         $fileName       =   'user-apoteker.jpg';
                         $apoteker->photo  =  $fileName;
