@@ -257,14 +257,8 @@
 			$('#photo').on('change', function() {
 				showFile(this, '#showPhoto');
 				});
-		$('#frm-dokter').on('submit', function(e) {
-			e.preventDefault();
-			var data = $(this).serialize();
-			console.log(data);
-			$.post("{{ route('postAdminDokter') }}", data, function(data) {
+		$('#frm-dokter').on('submit', function() {
 				toastr.success('Success !', 'Data berhasil di simpan !');
-				location.reload();
-			});
 		});
 		$('.btn-edit').on('click', function(e) {
 			e.preventDefault();
@@ -300,7 +294,7 @@
 				toastr.success('Success !', 'Data berhasil di hapus');
 				location.reload();
 						});
-			
+
 			},
 			cancel: function () {
 			$.alert('Batal!');

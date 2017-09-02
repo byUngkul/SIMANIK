@@ -22,7 +22,8 @@
 		    			<div class="clearfix"></div>
 		    		</div>
 		    		<div class="x_content">
-		    			<form action="" method="post" id="frm-apoteker">
+		    			<form action="{{ route('postAdminApoteker') }}" method="post" id="frm-apoteker">
+								{{ csrf_field() }}
 		    			<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 		    				<div class="col-lg-12">
 		    					<div class="form-group">
@@ -85,7 +86,7 @@
 		    		</div>
 		    	</div>
 		  </div>
-		</div>	
+		</div>
                 <div class="x_panel">
                   <div class="x_title">
                     <h2> Data Apoteker</h2>
@@ -121,7 +122,7 @@
 						<td>{{ $data['alamat'] }}</td>
 						<td>{{ date('d-F-Y', strtotime($data['tgl_lahir'])) }}</td>
 						<td>
-							<a href="#modal-edit" data-toggle="modal" class="btn btn-warning btn-flat btn-edit" 
+							<a href="#modal-edit" data-toggle="modal" class="btn btn-warning btn-flat btn-edit"
 							data-id={{ $data['id'] }} data-username={{ $data['username'] }} data-nama="{{ $data['nama'] }}" data-alamat={{ $data['alamat'] }} data-tgl_lahir={{ $data['tgl_lahir'] }} data-password="{{$data['password']}}"
 							><i class="fa fa-edit"></i></a>
 							<a href="#!" class="btn btn-danger btn-flat btn-delete" data-id="{{$data['id']}}"><i class="fa fa-trash"></i></a>
@@ -215,14 +216,8 @@
 				showFile(this, '#showPhoto');
 				});
 
-			$('#frm-apoteker').on('submit', function(e) {
-				e.preventDefault();
-				var data = $(this).serialize();
-				// console.log(data);
-				$.post("{{ route('postAdminApoteker') }}", data, function(data) {
+			$('#frm-apoteker').on('submit', function() {
 					toastr.success('Success !', 'Data berhasil di simpan !');
-					location.reload();
-				});
 			});
 
 			$('.btn-edit').on('click', function(e) {
@@ -265,7 +260,7 @@
                                 				toastr.success('Success !', 'Data berhasil di hapus');
                                 				location.reload();
 						});
-			                            
+
 			                        },
 			                        cancel: function () {
 			                            $.alert('Batal!');

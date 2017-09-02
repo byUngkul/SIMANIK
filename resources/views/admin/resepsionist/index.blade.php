@@ -20,7 +20,8 @@
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
-						<form method="post" id="frm-resepsionist" enctype="multipart/form-data">
+						<form action="{{ route('postAdminResepsionist') }}" method="post" id="frm-resepsionist" enctype="multipart/form-data">
+							{{ csrf_field() }}
 							<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 								<div class="col-lg-12">
 									<div class="form-group">
@@ -210,15 +211,14 @@
 		$('#photo').on('change', function() {
 	                showFile(this, '#showPhoto');
 	           });
-	
-		$('#frm-resepsionist').on('submit', function(e) {
-			e.preventDefault();
-			var data = $(this).serialize();
+
+		$('#frm-resepsionist').on('submit', function() {
+			// var data = $(this).serialize();
 			// console.log(data);
-			$.post("{{ route('postAdminResepsionist') }}", data, function(data) {
+			// $.post("{{ route('postAdminResepsionist') }}", data, function(data) {
 				toastr.success('Success !', 'Data berhasil di simpan !');
 				location.reload();
-			});
+			// });
 		});
 		$('.btn-edit').on('click', function(e) {
 			e.preventDefault();
@@ -251,7 +251,7 @@
 			toastr.success('Success !', 'Data berhasil di hapus');
 			location.reload();
 					});
-		
+
 		},
 		cancel: function () {
 		$.alert('Batal!');
