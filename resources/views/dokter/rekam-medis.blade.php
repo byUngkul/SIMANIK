@@ -286,7 +286,7 @@
 @section('customJs')
   <script type="text/javascript">
     $(document).ready(function() {
-      $('.btn-edit').on('click',  function(event) {
+      $('#datatable').on('click', '.btn-edit', function(event) {
         event.preventDefault();
         var id = $(this).data('id');
         var bb = $(this).data('bb');
@@ -316,7 +316,7 @@
         form.find('#keterangan').val(keterangan);
       });
 
-        $('.btn-detail').on('click',  function(event) {
+        $('#datatable').on('click','.btn-detail',  function(event) {
         event.preventDefault();
         var id = $(this).data('id');
         var bb = $(this).data('bb');
@@ -358,7 +358,7 @@
         });
       });
 
-      $('.btn-delete').on('click', function(event) {
+      $('#datatable').on('click','.btn-delete', function(event) {
         event.preventDefault();
         var id = $(this).data('id');
               $.confirm({

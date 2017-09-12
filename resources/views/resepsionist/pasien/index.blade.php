@@ -228,7 +228,7 @@
 @section('customJs')
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.btn-edit').on('click', function() {
+		$('#datatable').on('click', '.btn-edit', function() {
 			var id = $(this).data('id');
 			var nama = $(this).data('nama');
 			var jenis_kelamin = $(this).data('jenis_kelamin');
@@ -258,7 +258,7 @@
 			});
 		});
 
-		$('.btn-hapus').on('click', function(e) {
+		$('#datatable').on('click', '.btn-hapus', function(e) {
 	              var id = $(this).data('id');
 	                 $.confirm({
 	                    icon: 'fa fa-warning',
@@ -280,7 +280,7 @@
 	                });
 	          });
 		
-		$('.btn-tambah').on('click', function(e) {
+		$('#datatable').on('click','.btn-tambah', function(e) {
 			e.preventDefault();
 			var id = $(this).data('id');
 			var nama = $(this).data('nama');

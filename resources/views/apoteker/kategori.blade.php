@@ -95,7 +95,7 @@
 @section('customJs')
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('.btn-edit').on('click', function(e) {
+		$('#myTable').on('click','.btn-edit', function(e) {
 			e.preventDefault();
 			var id = $(this).data('id');
 			var kategori = $(this).data('kategori');
@@ -116,7 +116,7 @@
 			});
 		});
 
-		$('.btn-hapus').on('click', function(e) {
+		$('#myTable').on('click','.btn-hapus', function(e) {
 			var id = $(this).data('id');
 			$.confirm({
 			icon: 'fa fa-warning',

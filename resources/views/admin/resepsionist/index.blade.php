@@ -220,7 +220,7 @@
 				location.reload();
 			// });
 		});
-		$('.btn-edit').on('click', function(e) {
+		$('#myTable').on('click','.btn-edit', function(e) {
 			e.preventDefault();
 			var id = $(this).data('id');
 			var username = $(this).data('username');
@@ -239,7 +239,7 @@
 		$('#frm-edit').on('submit', function() {
 			toastr.success('Success !', 'Data berhasil di simpan !');
 		});
-		$('.btn-delete').on('click', function(e) {
+		$('#myTable').on('click','.btn-delete', function(e) {
 			e.preventDefault();
 			var id = $(this).data('id');
 			$.confirm({

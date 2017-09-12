@@ -164,7 +164,7 @@
 @section('customJs')
   <script type="text/javascript">
     $(document).ready(function() {
-      $('.btn-detail').on('click',  function(event) {
+      $('#datatable').on('click', '.btn-detail', function(event) {
         event.preventDefault();
         var pasien_id = $(this).data('id');
         if ($('tr#baris').length >= 1) {
