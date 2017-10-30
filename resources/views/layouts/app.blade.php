@@ -214,12 +214,14 @@ buttons: [
 $('#datatable').DataTable();
 $('.datepicker').datepicker({
 format: 'yyyy-mm-dd',
-todayHighlight: true
+todayHighlight: true,
+keyboardNavigation: true,
+startView: "years"
 });
 $('.bulan').datepicker( {
 format: "mm",
 viewMode: "months",
-minViewMode: "months"
+minViewMode: "months",
 });
 $('.tahun').datepicker( {
 format: "yyyy",
