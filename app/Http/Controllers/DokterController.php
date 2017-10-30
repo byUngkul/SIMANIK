@@ -28,7 +28,7 @@ class DokterController extends Controller
         $pasien = Pasien::find($id);
         $rekamMedis =  RK_Medis::where(['nama' => $nama, 'tgl_lahir' => $tgl])->get()->toArray();
         $umur = new \DateTime($pasien->tgl_lahir);
-        $ubah = new \DateTime();
+        $ubah = new \DateTime(); 
         $umur = $ubah->diff($umur);
         // dd($nama);
         // 
@@ -71,7 +71,7 @@ class DokterController extends Controller
                 $resep = Resep::create([
                     'dokter_id'    => $request['dokter_id'],
                     'pasien_id'    =>   $request['pasien_id'],
-                    'obat_id'        =>     $request['obat'][$i]['value'],
+                    'obat'        =>     $request['obat'][$i]['value'],
                     'keterangan'  =>    $request['keterangan'][$i]['value'],
                     'jumlah'          =>    $request['jumlah'][$i]['value'],
                     'status'          =>     'belum'
@@ -159,7 +159,7 @@ class DokterController extends Controller
     }
 
     public function getResep() {
-            $resep = Resep::with(['pasien', 'obat'])->where('dokter_id', Session::get('id'))->orderBy('created_at', 'desc')->groupBy('pasien_id')->get()->toArray();
+            $resep = Resep::with(['pasien'])->where('dokter_id', Session::get('id'))->orderBy('created_at', 'desc')->groupBy('pasien_id')->get()->toArray();
             // dd($resep);
             $hariIni = Resep::where('dokter_id', Session::get('id'))->whereDate('created_at', date('y-m-d'))->get()->toArray();
     	return view('dokter.resep', ['resep' => $resep, 'hariIni' => $hariIni]);
@@ -171,12 +171,12 @@ class DokterController extends Controller
                     $bulan = $request->bulan;
                     $tahun = $request->tahun;
                     $arr = array();
-                    $barang = Resep::with(['pasien', 'obat'])->where('dokter_id', Session::get('id'))->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->get()->toArray();
+                    $barang = Resep::with(['pasien'])->where('dokter_id', Session::get('id'))->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->get()->toArray();
                     foreach ($barang as $data) {
                         $data_arr = array(
                             $data['id'],
                             $data['pasien']['nama'],
-                            $data['obat']['nama'],
+                            $data['obat'],
                             $data['jumlah'],
                             $data['keterangan'],
                         );
@@ -196,20 +196,20 @@ class DokterController extends Controller
     public function PDFResep(Request $request) {
         $bulan = $request['bulan'];
         $tahun = $request['tahun'];
-        $resep = Resep::with(['pasien', 'dokter', 'obat'])->where('dokter_id', Session::get('id'))->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->get()->toArray();
+        $resep = Resep::with(['pasien', 'dokter'])->where('dokter_id', Session::get('id'))->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->get()->toArray();
         // dd($resep);
         return view('dokter.pdf-resep', ['bulan' => $bulan, 'tahun' => $tahun, 'resep' => $resep]);
     }
 
     public function printDetailResep($id) {
-        $resep = Resep::with(['pasien', 'obat'])->where(['dokter_id' => Session::get('id'), 'pasien_id' => $id])->get()->toArray();
+        $resep = Resep::with(['pasien'])->where(['dokter_id' => Session::get('id'), 'pasien_id' => $id])->get()->toArray();
         // dd($resep);
         return view('dokter.print-resep', ['resep' => $resep]);
     }
 
     public function getIsiResep(Request $request) {
         if ($request->ajax()) {
-            $data = Resep::with('obat')->where(['dokter_id' => Session::get('id'), 'pasien_id' => $request->pasien_id])->get();
+            $data = Resep::where(['dokter_id' => Session::get('id'), 'pasien_id' => $request->pasien_id])->get();
             return response()->json($data);
         }
     }
