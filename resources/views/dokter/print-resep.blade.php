@@ -36,7 +36,7 @@
         @foreach($resep as $data)
           <tr>
               <td>{{$no++}}</td>
-              <td>{{ $data['obat']['nama'] }}</td>
+              <td>{{ $data['obat'] }}</td>
               <td>{{ $data['jumlah'] }}</td>
               <td>{{ $data['keterangan'] }}</td>
           </tr>
