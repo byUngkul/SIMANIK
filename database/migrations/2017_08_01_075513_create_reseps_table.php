@@ -16,7 +16,8 @@ class CreateResepsTable extends Migration
         Schema::create('reseps', function (Blueprint $table) {
             $table->increments('id');
             $table->char('dokter_id', 10);
-            $table->smallInteger('obat_id');
+            // $table->smallInteger('obat_id');
+            $table->string('obat', 100);
             $table->char('pasien_id', 10);
             $table->string('keterangan', 255);
             $table->smallInteger('jumlah');
