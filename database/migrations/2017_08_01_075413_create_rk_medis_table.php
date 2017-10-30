@@ -16,11 +16,14 @@ class CreateRKMedisTable extends Migration
         Schema::create('rk_medis', function (Blueprint $table) {
             $table->char('id', 10);
             $table->primary('id');
+            $table->string('nama', 50);
+            $table->date('tgl_lahir');
             $table->char('pasien_id', 10);
             $table->char('dokter_id', 10);
             $table->string('diagnosa');
             $table->string('keluhan');
             $table->text('anamnesis');
+            $table->string('tindakan');
             $table->text('keterangan');
             $table->string('alergi_obat', 100);
             $table->float('bb');
