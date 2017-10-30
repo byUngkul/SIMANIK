@@ -38,7 +38,7 @@
           <tr>
               <td>{{$no++}}</td>
               <td>{{ $data['pasien']['nama'] }}</td>
-              <td>{{ $data['obat']['nama'] }}</td>
+              <td>{{ $data['obat'] }}</td>
               <td>{{ $data['jumlah'] }}</td>
               <td>{{ $data['keterangan'] }}</td>
           </tr>
