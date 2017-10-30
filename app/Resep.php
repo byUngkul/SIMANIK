@@ -13,10 +13,10 @@ class Resep extends Model
     protected $fillable = [
     	'dokter_id',
     	'pasien_id',
-	'obat_id',
-	'keterangan',
-             'jumlah',
-	'status',
+	    'obat',
+	    'keterangan',
+        'jumlah',
+	    'status',
     ];
 
     public function dokter() {
@@ -27,7 +27,7 @@ class Resep extends Model
     	return $this->belongsTo('App\Pasien');
     }
 
-    public function obat() {
-    	return $this->belongsTo('App\Obat');
-    }
+    // public function obat() {
+    // 	return $this->belongsTo('App\Obat');
+    // }
 }
