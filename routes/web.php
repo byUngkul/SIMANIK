@@ -80,5 +80,11 @@ Route::group(['prefix' => 'apoteker'], function() {
 	Route::get('/getHapusKategori', ['uses' => 'ApotekerController@getHapusKategori', 'as' => 'getHapusKategori']);
 	Route::post('/postUpdateKategori', ['uses' => 'ApotekerController@postUpdateKategoriObat', 'as' => 'postUpdateKategori']);
 
+	// transaksi
+	Route::get('/DetailResep/getDataObat', ['uses' => 'ApotekerController@getDataObat', 'as' => 'getDataObat']);
+	Route::post('/DetailResep/dokter_id={dokter_id}&pasien_id={pasien_id}/nextTransaksi', ['uses' => 'ApotekerController@postResepObat', 'as' => 'postResepObat']);
+	Route::post('/DetailResep/dokter_id={dokter_id}&pasien_id={pasien_id}/confirmation', ['uses' => 'ApotekerController@confirmTransaksi', 'as' => 'confirmTransaksi'])	;
+
+
 });
 

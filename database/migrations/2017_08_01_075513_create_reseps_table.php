@@ -21,6 +21,7 @@ class CreateResepsTable extends Migration
             $table->char('pasien_id', 10);
             $table->string('keterangan', 255);
             $table->smallInteger('jumlah');
+            $table->enum('status', ['belum', 'selesai'])
             $table->timestamps();
         });
     }

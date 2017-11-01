@@ -25,13 +25,29 @@ class ApotekerController extends Controller
     public function getDataResep($dokter_id, $pasien_id) {
             $ada = 'ada';
             $habis = 'habis';
-            $ada = Resep::with(['obat', 'dokter', 'pasien'])->whereHas('obat', function($q) use($ada){ $q->where('status', '=', $ada); })->where(['dokter_id' => $dokter_id, 'pasien_id' => $pasien_id])->get()->toArray();
-            $habis =  Resep::with(['obat', 'dokter', 'pasien'])->whereHas('obat', function($q) use($habis){ $q->where('status', '=', $habis); })->where(['dokter_id' => $dokter_id, 'pasien_id' => $pasien_id])->get()->toArray();
-            // dd($resep);
-            $nama_dokter = Resep::with('dokter')->first();
-            $nama_pasien = Resep::with('pasien')->first();
-            // dd($resep);
-            return view('apoteker.getDataResep', ['ada' => $ada, 'habis' => $habis, 'nama_dokter' => $nama_dokter, 'nama_pasien' => $nama_pasien]);
+            // old version
+            // $ada = Resep::with(['obat', 'dokter', 'pasien'])
+            //              ->whereHas('obat', function($q) use($ada){ 
+            //                 $q->where('status', '=', $ada); 
+            //               })
+            //              ->where(['dokter_id' => $dokter_id, 'pasien_id' => $pasien_id])
+            //              ->get()->toArray();
+            // $habis =  Resep::with(['obat', 'dokter', 'pasien'])
+            //                 ->whereHas('obat', function($q) use($habis){ 
+            //                     $q->where('status', '=', $habis); 
+            //                 })
+            //                 ->where(['dokter_id' => $dokter_id, 'pasien_id' => $pasien_id])
+            //                 ->get()->toArray();
+            // // dd($ada);
+            $dataResep = Resep::with(['dokter', 'pasien'])
+                         ->where([
+                           'pasien_id' => $pasien_id, 
+                           'dokter_id' => $dokter_id])->get()->toArray();
+            // dd($dataResep);
+            $obat = Obat::get()->toArray();
+            // new version
+            
+            return view('apoteker.getDataResep', ['obat' => $obat, 'dataResep' => $dataResep]);
     }
 
     public function getDetailResep(Request $request) {
@@ -168,5 +184,71 @@ class ApotekerController extends Controller
        return $pdf->stream('resep-dokter.pdf');
     }
 
+    // transaksi
+    public function getDataObat(Request $request) {
+        if ($request->ajax()) {
+            $obat = Obat::find($request->id);
+            return response()->json($obat);
+        }
+    }
+
+    public function postResepObat(Request $request) {
+        // dd($request->all());
+        $jumlah_obat = $request['jumlah_obat'];
+        $id_resep = $request['id_resep'];
+        $id_dokter = $request['id_dokter'];
+        $id_pasien = $request['id_pasien'];
+        $id_obat = $request['obat_id'];
+        // dd($id_pasien);
+        $obat = Obat::whereIn('id', $request['obat_id'])->get()->toArray();
+        $hasil = [];
+        foreach ($jumlah_obat as $key => $value) {
+            // total biaya
+            if ($obat[$key]['status'] == 'ada') {
+                // total per obat
+                array_push($hasil, ($value * $obat[$key]['harga']));
+                $total_biaya = array_sum($hasil);
+            }
+        }
+        // dd($hasil);
+        return view('apoteker.confirm', compact([
+                'obat',
+                'jumlah_obat',
+                'total_biaya',
+                'id_resep',
+                'id_dokter', 
+                'id_pasien',
+                'id_obat'
+        ]));
+    }
+
+    public function confirmTransaksi(Request $request) {
+        $jumlah_obat = $request['jumlah_obat'];
+        $id_resep = $request['id_resep'];
+        $id_obat = $request['id_obat'];
+
+        $obat = Obat::whereIn('id', $id_obat)->get()->toArray();
+        $resep = Resep::whereIn('id', $request['id_resep']);
+        $update = $resep->update([
+            'status' => 'selesai'
+        ]);
+        $getData = $resep->get()->toArray();
+
+        $hasil = [];
+        foreach ($jumlah_obat as $key => $value) {
+            // total biaya
+            if ($obat[$key]['status'] == 'ada') {
+                // total per obat
+                array_push($hasil, ($value * $obat[$key]['harga']));
+                $total_biaya = array_sum($hasil);
+            }
+        }
+        return view('apoteker.print', compact([
+                    'getData', 
+                    'obat', 
+                    'jumlah_obat', 
+                    'total_biaya'
+        ]));
+    }
 
 }

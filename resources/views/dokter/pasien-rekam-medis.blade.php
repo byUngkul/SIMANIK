@@ -200,31 +200,13 @@
 							<label>Obat 1</label>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-									<select class="form-control select2"  name="obat[]">
+									<input type="text" name="obat[]" class="form-control" placeholder="nama obat">
+									{{-- <select class="form-control select2"  name="obat[]">
 										<option disabled="" selected="">- Pilih -</option>
 										@foreach ($obat as $data)
 										<option value="{{$data['id']}}">{{$data['nama']}}</option>
 										@endforeach
-									</select>
-								</div>
-								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-									<input type="text" name="jumlah[]" placeholder="jumlah" class="form-control" >
-								</div>
-								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:5px">
-									<input type="text" placeholder="signa" name="keterangan[]" class="form-control">
-								</div>
-							</div>
-						</div>
-						<div class="form-group no">
-							<label>Obat 2</label>
-							<div class="row">
-								<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-									<select class="form-control select2"  name="obat[]">
-										<option disabled="" selected="">- Pilih -</option>
-										@foreach ($obat as $data)
-										<option value="{{$data['id']}}">{{$data['nama']}}</option>
-										@endforeach
-									</select>
+									</select> --}}
 								</div>
 								<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 									<input type="text" name="jumlah[]" placeholder="jumlah" class="form-control" >
@@ -265,7 +247,11 @@
 			type: 'GET',
 			dataType: 'JSON',
 			success: function (data) {
-				var obat = '<div class="form-group no"><label>Obat '+(no+1)+'</label><div class="row"><div class="col-xs-12 col-sm-12 col-md-8 col-lg-8"><select class="form-control select2 obat"  name="obat[]"><option disabled="" selected="">- Pilih -</option></select></div><div class="col-xs-12 col-sm-12 col-md-4 col-lg-4"><input type="text" name="jumlah[]" placeholder="jumlah" class="form-control" ></div><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:5px"><input type="text" placeholder="keterangan" name="keterangan[]" class="form-control"></div></div></div>';
+				// select mode
+				// var obat = '<div class="form-group no"><label>Obat '+(no+1)+'</label><div class="row"><div class="col-xs-12 col-sm-12 col-md-8 col-lg-8"><select class="form-control select2 obat"  name="obat[]"><option disabled="" selected="">- Pilih -</option></select></div><div class="col-xs-12 col-sm-12 col-md-4 col-lg-4"><input type="text" name="jumlah[]" placeholder="jumlah" class="form-control" ></div><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:5px"><input type="text" placeholder="keterangan" name="keterangan[]" class="form-control"></div></div></div>';
+				
+				// input mode
+				var obat = '<div class="form-group no"><label>Obat '+(no+1)+'</label><div class="row"><div class="col-xs-12 col-sm-12 col-md-8 col-lg-8"><input type="text" name="obat[]" class="form-control" placeholder="nama obat"></div><div class="col-xs-12 col-sm-12 col-md-4 col-lg-4"><input type="text" name="jumlah[]" placeholder="jumlah" class="form-control" ></div><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:5px"><input type="text" placeholder="keterangan" name="keterangan[]" class="form-control"></div></div></div>';
 				$('#daftar-obat').append(obat);
 				$.each(data, function(i, item){
 					$('.obat').append($("<option/>", {
@@ -299,7 +285,7 @@
 					}else {
 						var alergi = $('#alergi_obat').val();
 					}
-					var obat = $('select[name="obat[]"]').serializeArray();
+					var obat = $('input[name="obat[]"]').serializeArray();
 					var jumlah = $('input[name="jumlah[]"]').serializeArray();
 					var keterangan = $('input[name="keterangan[]"]').serializeArray();
 					$.post("{{route('postRekamMedisPasien')}}", {
